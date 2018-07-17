@@ -1,5 +1,5 @@
 {
-  "name": "tableau-react",
+  "name": "tableau-react-embed",
   "version": "1.0.1",
   "description": "React component for rendering tableau reports using tableau javascript API.",
   "main": "dist/index.js",
@@ -13,28 +13,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coopermaruyama/tableau-react.git"
+    "url": "git+https://github.com/masenius/tableau-react-embed.git"
   },
   "keywords": [
     "tableau",
     "react",
     "jsx"
   ],
-  "author": "Cooper Maruyama",
+  "author": "David Månsson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/coopermaruyama/tableau-react/issues"
+    "url": "https://github.com/masenius/tableau-react-embed/issues"
   },
-  "homepage": "https://github.com/coopermaruyama/tableau-react#readme",
+  "homepage": "https://github.com/masenius/tableau-react-embed#readme",
   "peerDependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "dependencies": {
     "es6-promise": "^4.0.5",
+    "prop-types": "^15.6.0",
     "shallowequal": "^0.2.2",
-    "url": "^0.11.0",
-    "tableau-api": "git://github.com/ilyabo/tableau-api"
+    "tableau-api": "git://github.com/ilyabo/tableau-api",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",

@@ -1,6 +1,8 @@
 # Tableau React Component
 Tableau React component integrated with Tableau JS API.
 
+Based on https://github.com/coopermaruyama/tableau-react which is not maintained anymore.
+
 ## Install
 
 ```
