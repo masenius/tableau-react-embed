@@ -6,12 +6,12 @@ Based on https://github.com/coopermaruyama/tableau-react which is not maintained
 ## Install
 
 ```
-npm install tableau-react --save
+npm install tableau-react-embed --save
 ```
 
 ## Usage
 ```js
-import TableauReport from 'tableau-react';
+import TableauReport from 'tableau-react-embed';
 
 const SimpleReport = props => (
   <TableauReport
