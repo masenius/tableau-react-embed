@@ -42,12 +42,16 @@ const parameters = {
   Param2: 'Other Value'
 };
 
+// Number of seconds between sending Tableau data refresh requests. 0 = do not automatically refresh (default)
+const refreshSeconds = 60 * 5;
+
 const MyReport = props => (
   <TableauReport
     url="http://reports.my-site.com/my-workbook/my-report"
     filters={filters}
     parameters={parameters}
     options={options} // vizCreate options
+    refreshSeconds={refreshSeconds}
   />
 )
 ```
@@ -61,6 +65,14 @@ each one asynchronously after the viz loads.
 Once the viz has been loaded, if the parameters/filters change but the url
 does not, only the changed parameters/filters will be applied asynchronously in
 order to optimize performance.
+
+### Automatic Data Refreshing
+
+You can specify the number of seconds to wait before automatically refreshing the data in the Viz using `props.refreshSeconds`. Any number less than 1 will cause the data to not be automatically refreshed. This uses the viz.refreshDataAsync() method in the Tableau JS API.
+
+If you change this prop, the timer will be reset and will start waiting for the new number of seconds before triggering the refresh. It will not immediately refresh, but rather wait until the new timer goes off. It will not stop refreshes in progress.
+
+Warning: The next refresh may be called again before the last refresh completes, so make sure to set refreshSeconds high enough to prevent overlap if you use this feature.
 
 
 ### Viz Integration
