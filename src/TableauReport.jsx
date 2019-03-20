@@ -11,14 +11,18 @@ const propTypes = {
   url: PropTypes.string,
   parameters: PropTypes.object,
   options: PropTypes.object,
-  token: PropTypes.string
+  token: PropTypes.string,
+  refreshSeconds: PropTypes.number,
+  onLoad: PropTypes.func
 };
 
 const defaultProps = {
   loading: false,
   parameters: {},
   filters: {},
-  options: {}
+  options: {},
+  refreshSeconds: 0,
+  onLoad: function(date){}
 };
 
 class TableauReport extends React.Component {
@@ -33,6 +37,15 @@ class TableauReport extends React.Component {
 
   componentDidMount() {
     this.initTableau();
+  }
+
+  componentWillUnmount() {
+    // stop refreshing Tableau
+    if (this.refreshTimer)
+    {
+      clearInterval(this.refreshTimer);
+      this.refreshTimer = null;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,6 +72,22 @@ class TableauReport extends React.Component {
     // token change, validate it.
     if (nextProps.token !== this.props.token) {
       this.setState({ didInvalidateToken: false });
+    }
+
+    // refresh rate change
+    if (nextProps.refreshSeconds !== this.props.refreshSeconds)
+    {
+      // clear current refresh interval timer if it is set
+      if (typeof(this.refreshTimer) !== "undefined")
+      {
+        clearInterval(this.refreshTimer);
+      }
+
+      // if the new refresh rate is > 0, set up the timer
+      if (nextProps.refreshSeconds > 0)
+      {
+        this.refreshTimer = setInterval(this.refresh.bind(this), nextProps.refreshSeconds * 1000);
+      }
     }
   }
 
@@ -147,12 +176,20 @@ class TableauReport extends React.Component {
     this.onComplete(promises, () => this.setState({ loading: false, parameters }));
   }
 
+  // refreshes the tableau visualization's data
+  refresh() {
+    if (typeof(this.viz) !== "undefined")
+    {
+      this.viz.refreshDataAsync();
+    }
+  }
+
   /**
    * Initialize the viz via the Tableau JS API.
    * @return {void}
    */
   initTableau() {
-    const { filters, parameters } = this.props;
+    const { filters, parameters, refreshSeconds } = this.props;
     const vizUrl = this.getUrl();
 
     const options = {
@@ -175,6 +212,12 @@ class TableauReport extends React.Component {
     }
 
     this.viz = new Tableau.Viz(this.container, vizUrl, options);
+
+    // set up automatic refreshing if specified
+    if (refreshSeconds > 0)
+    {
+      this.refreshTimer = setInterval(this.refresh.bind(this), refreshSeconds * 1000);
+    }
   }
 
   render() {
