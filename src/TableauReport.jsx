@@ -56,7 +56,7 @@ class TableauReport extends React.Component {
 
     // Only report is changed - re-initialize
     if (isReportChanged) {
-      this.initTableau();
+      this.initTableau(nextProps);
     }
 
     // Only filters are changed, apply via the API
@@ -117,14 +117,15 @@ class TableauReport extends React.Component {
    * Returns a vizUrl, tokenizing it if a token is passed and immediately
    * invalidating it to prevent it from being used more than once.
    */
-  getUrl() {
+  getUrl(newURL) {
+    cons nURL = (newURL || this.props.url);
     const { token } = this.props;
-    const parsed = url.parse(this.props.url, true);
+    const parsed = url.parse(nURL, true);
     const query = '?:embed=yes&:comments=no&:toolbar=yes&:refresh=yes';
 
     if (!this.state.didInvalidateToken && token) {
       this.invalidateToken();
-      return tokenizeUrl(this.props.url, token) + query;
+      return tokenizeUrl(nURL, token) + query;
     }
 
     return parsed.protocol + '//' + parsed.host + parsed.pathname + query;
@@ -188,14 +189,15 @@ class TableauReport extends React.Component {
    * Initialize the viz via the Tableau JS API.
    * @return {void}
    */
-  initTableau() {
-    const { filters, parameters, refreshSeconds } = this.props;
-    const vizUrl = this.getUrl();
+  initTableau(newProps) {
+    const nProps = (newProps || this.props);
+    const { filters, parameters, refreshSeconds } = {nProps};
+    const vizUrl = this.getUrl(nProps.url);
 
     const options = {
       ...filters,
       ...parameters,
-      ...this.props.options,
+      ...nProps.options,
       onFirstInteractive: () => {
         this.workbook = this.viz.getWorkbook();
         this.sheets = this.workbook.getActiveSheet().getWorksheets();
