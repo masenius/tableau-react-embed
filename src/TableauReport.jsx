@@ -6,9 +6,12 @@ import shallowequal from 'shallowequal';
 import tokenizeUrl from './tokenizeUrl';
 import Tableau from 'tableau-api';
 
+const DEFAULT_QUERY = '?:embed=yes&:comments=no&:toolbar=yes&:refresh=yes';
+
 const propTypes = {
   filters: PropTypes.object,
   url: PropTypes.string,
+  query: PropTypes.string,
   parameters: PropTypes.object,
   options: PropTypes.object,
   token: PropTypes.string,
@@ -18,6 +21,7 @@ const propTypes = {
 
 const defaultProps = {
   loading: false,
+  query: DEFAULT_QUERY,
   parameters: {},
   filters: {},
   options: {},
@@ -118,9 +122,8 @@ class TableauReport extends React.Component {
    * invalidating it to prevent it from being used more than once.
    */
   getUrl() {
-    const { token } = this.props;
+    const { token, query } = this.props;
     const parsed = url.parse(this.props.url, true);
-    const query = '?:embed=yes&:comments=no&:toolbar=yes&:refresh=yes';
 
     if (!this.state.didInvalidateToken && token) {
       this.invalidateToken();
