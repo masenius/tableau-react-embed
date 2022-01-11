@@ -34,7 +34,7 @@
     "es6-promise": "^4.0.5",
     "prop-types": "^15.6.0",
     "shallowequal": "^0.2.2",
-    "tableau-api": "git://github.com/ilyabo/tableau-api",
+    "tableau-api": "ilyabo/tableau-api",
     "url": "^0.11.0"
   },
   "devDependencies": {
