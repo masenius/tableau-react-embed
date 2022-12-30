@@ -1,3 +1,9 @@
+Note: This project is using a older version of the Tableau Embedding API (v2.0.0, whereas v3.4.X is currently available)
+
+To use a more up-to-date api version you can either:
+* Manually download, copy, and export a version of the tableau API (as this repo's "tableau-api" dependency does)
+* Use an up-to-date project (such as the [TableauEmbed](https://github.com/stoddabr/react-tableau-embed-live) react component)
+
 # Tableau React Component
 Tableau React component integrated with Tableau JS API.
 
